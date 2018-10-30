@@ -1,0 +1,36 @@
+<!-- <form [formGroup]="initialForm" (ngSubmit)="onFormSubmit(initialForm)">
+
+  <mat-form-field appearance="legacy">
+    <mat-label>Cell size [m]</mat-label>
+    <input matInput type="number" placeholder="Frequency" formControlName="frequency">
+    <mat-error *ngIf="initialForm.get('frequency').hasError('min') || initialForm.get('frequency').hasError('max')">
+      Cell size must be between 500 and 1500
+    </mat-error>
+  </mat-form-field>
+</form> -->
+<!------ Include the above in your HEAD tag ---------->
+
+<div class="container contact-form">
+  <div class="contact-image">
+    <img src="https://image.ibb.co/kUagtU/rocket_contact.png" alt="rocket_contact" />
+  </div>
+  <form [formGroup]="initialForm" (ngSubmit)="onFormSubmit(initialForm)">
+    <h3>Initial step</h3>
+    <h6>Enter basic networkdata</h6>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <mat-form-field appearance="legacy">
+            <mat-label>Cell size [m]</mat-label>
+            <input matInput type="number" placeholder="Frequency" formControlName="frequency">
+            <mat-error *ngIf="initialForm.get('frequency').hasError('min') || initialForm.get('frequency').hasError('max')">
+              Cell size must be between 500 and 1500
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col-md-6">
+      </div>
+    </div>
+  </form>
+</div>
