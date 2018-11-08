@@ -1,0 +1,82 @@
+<header-nav></header-nav>
+
+<div id="holder" class="row">
+  <div class="col-8">
+    <agm-map [latitude]="plan.latitude" [longitude]="plan.longitude">
+      <!--
+        <agm-polygon [paths]="polygonCoords" [editable]="false" [clickable]="true" [geodesic]="true" [fillColor]="'#d18300'"
+          [fillOpacity]="0.4" [strokeColor]="'#ffa800'" [polyDraggable]="true">
+        </agm-polygon>
+      -->
+      <!--
+        <agm-marker *ngFor="let coord of markerCoords; index as i" [latitude]="coord.lat()" [longitude]="coord.lng()"
+          [label]="(i + 1).toString()+'\u200b'">
+          * </agm-marker>
+      -->
+
+      <agm-polygon
+        *ngFor="let cell of plan.grid.cells"
+        [paths]="[cell.vertices]"
+        [fillOpacity]="0.1"
+        (polyClick)="click(cell)"
+      >
+      </agm-polygon>
+    </agm-map>
+  </div>
+
+  <div class="col-3 pl-0">
+    <h2>Network data</h2>
+    <div class="my-3 p-3 bg-white rounded shadow-sm">
+      <h6 class="border-bottom border-gray pb-2 mb-0">Network data</h6>
+
+      <div class="media text-muted pt-3 header">
+        <div class="playerOne">Cells number</div>
+        <div class="playerTwo">{{ plan.grid.cells.length }}</div>
+      </div>
+
+      <div class="media text-muted pt-3 header">
+        <div class="playerOne">Channel Interference Reduction Factor</div>
+        <div class="playerTwo">{{ plan.cirf }}</div>
+      </div>
+
+      <div class="media text-muted pt-3 header">
+        <div class="playerOne">Required transmission quality</div>
+        <div class="playerTwo">{{ plan.requiredCi }}</div>
+      </div>
+
+      <div class="media text-muted pt-3 header">
+        <div class="playerOne">System capacity</div>
+        <div class="playerTwo">{{ plan.systemCapacity }}</div>
+      </div>
+
+      <div class="media text-muted pt-3 header">
+        <div class="playerOne">Cluster size</div>
+        <div class="playerTwo">{{ plan.clusterSize }}</div>
+      </div>
+
+      <div class="media text-muted pt-3 header">
+        <div class="playerOne">Channel reuse distance</div>
+        <div class="playerTwo">{{ plan.channelReuseDistnace }}</div>
+      </div>
+    </div>
+
+    <ng-container *ngIf="selectedCell">
+      <h2>Cell data</h2>
+      <div class="my-3 p-3 bg-white rounded shadow-sm">
+        <h6 class="border-bottom border-gray pb-2 mb-0">
+          Base station geo location
+        </h6>
+
+        <div class="media text-muted pt-3 header">
+          <div class="playerOne">Longitude</div>
+          <div class="playerTwo">{{ selectedCell.longitude }}</div>
+        </div>
+
+        <div class="media text-muted pt-3 header">
+          <div class="playerOne">Latitude</div>
+          <div class="playerTwo">{{ selectedCell.latitude }}</div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

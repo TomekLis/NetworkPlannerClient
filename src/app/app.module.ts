@@ -1,8 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, Component } from '@angular/core';
 import { AppComponent } from './app.component';
 import { InitialStepComponent } from './components/creator-steps/initial-step/initial-step.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { AgmCoreModule } from '@agm/core';
 import {
   MatButtonModule,
   MatMenuModule,
@@ -29,6 +30,13 @@ import { UserService } from './services/user.service';
 import { HttpModule, XHRBackend } from '@angular/http';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { AuthenticateXHRBackendService } from './utils/authenticate-xhrbackend.service';
+import { AreaSelectionStepComponent } from './components/creator-steps/area-selection-step/area-selection-step.component';
+import { SensitiveData } from 'src/apiKeys';
+import { PlannerService } from './services/planner.service';
+import { GridGeneratorService } from './services/grid-generator.service';
+import { MapsService } from './services/maps.service';
+import { PolygonService } from './services/polygon.service';
+import { PlanComponent } from './components/plan/plan.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +45,9 @@ import { AuthenticateXHRBackendService } from './utils/authenticate-xhrbackend.s
     HeaderNavComponent,
     HomeComponent,
     LoginFormComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    AreaSelectionStepComponent,
+    PlanComponent
   ],
   imports: [
     BrowserModule,
@@ -59,6 +69,10 @@ import { AuthenticateXHRBackendService } from './utils/authenticate-xhrbackend.s
     MatSlideToggleModule,
     FormsModule,
     HttpModule,
+    AgmCoreModule.forRoot({
+      apiKey: SensitiveData.API_KEY, // hides Google map API key
+      libraries: ['places', 'drawing']
+    }),
     RouterModule.forRoot([
       {
         path: '',
@@ -66,13 +80,27 @@ import { AuthenticateXHRBackendService } from './utils/authenticate-xhrbackend.s
         pathMatch: 'full'
       },
       {
+        path: 'login',
+        component: LoginFormComponent
+      },
+      {
         path: 'home',
         component: HomeComponent,
         canActivate: [AuthGuardService]
       },
       {
-        path: 'login',
-        component: LoginFormComponent
+        path: 'initial-step',
+        component: InitialStepComponent,
+        canActivate: [AuthGuardService]
+      },
+      {
+        path: 'area-selection-step',
+        component: AreaSelectionStepComponent,
+        canActivate: [AuthGuardService]
+      },
+      {
+        path: 'created-plan',
+        component: PlanComponent
       }
     ])
   ],
@@ -97,7 +125,11 @@ import { AuthenticateXHRBackendService } from './utils/authenticate-xhrbackend.s
     MatSelectModule,
     MatOptionModule,
     UserService,
-    MatSlideToggleModule
+    PlannerService,
+    MatSlideToggleModule,
+    GridGeneratorService,
+    MapsService,
+    PolygonService
   ],
   bootstrap: [AppComponent]
 })

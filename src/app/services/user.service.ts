@@ -11,9 +11,7 @@ import { map, catchError } from 'rxjs/operators';
 export class UserService extends BaseService {
   baseUrl = '';
 
-  // Observable navItem source
   private _authNavStatusSource = new BehaviorSubject<boolean>(false);
-  // Observable navItem stream
   authNavStatus$ = this._authNavStatusSource.asObservable();
 
   private loggedIn = false;

@@ -1,0 +1,20 @@
+agm-map {
+    height: 400px;
+}
+
+.row {
+    margin-top: -48px;
+}
+
+.header {
+    display: inline-block;
+    width: 100%;
+}
+
+.playerOne {
+    float: left;
+}
+
+.playerTwo {
+    float: right;
+}

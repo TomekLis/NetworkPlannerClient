@@ -1,35 +1,115 @@
-<!-- <form [formGroup]="initialForm" (ngSubmit)="onFormSubmit(initialForm)">
-
-  <mat-form-field appearance="legacy">
-    <mat-label>Cell size [m]</mat-label>
-    <input matInput type="number" placeholder="Frequency" formControlName="frequency">
-    <mat-error *ngIf="initialForm.get('frequency').hasError('min') || initialForm.get('frequency').hasError('max')">
-      Cell size must be between 500 and 1500
-    </mat-error>
-  </mat-form-field>
-</form> -->
-<!------ Include the above in your HEAD tag ---------->
-
+<header-nav></header-nav>
 <div class="container contact-form">
-  <div class="contact-image">
-    <img src="https://image.ibb.co/kUagtU/rocket_contact.png" alt="rocket_contact" />
-  </div>
   <form [formGroup]="initialForm" (ngSubmit)="onFormSubmit(initialForm)">
     <h3>Initial step</h3>
-    <h6>Enter basic networkdata</h6>
     <div class="row">
-      <div class="col-md-6">
+      <div class="offset-md-1 col-md-4">
+        <h6>Enter basic networkdata</h6>
+
         <div class="form-group">
+
+          <mat-radio-group formControlName="systemType" appearance="legacy">
+            <mat-radio-button *ngFor="let systemType of systemTypes" [value]="systemType.value" (change)="radioChange($event)">{{systemType.name}}</mat-radio-button>
+          </mat-radio-group>
+
           <mat-form-field appearance="legacy">
-            <mat-label>Cell size [m]</mat-label>
+            <mat-label>Frequency [MHz]</mat-label>
             <input matInput type="number" placeholder="Frequency" formControlName="frequency">
             <mat-error *ngIf="initialForm.get('frequency').hasError('min') || initialForm.get('frequency').hasError('max')">
-              Cell size must be between 500 and 1500
+              Frequency value needs to be between {{currentSpecification.frequency.min}} and
+              {{currentSpecification.frequency.max}}
             </mat-error>
           </mat-form-field>
+
+          <mat-form-field>
+            <mat-select placeholder="Transmission Type" formControlName="transsmissionType">
+              <mat-option *ngFor="let transmission of transmissionTypes" [value]="transmission.value">
+                {{transmission.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="legacy">
+            <mat-label>Min channel</mat-label>
+            <input matInput type="number" placeholder="Min channel" formControlName="channelMin">
+            <mat-error *ngIf="initialForm.get('channelMin').hasError('min') || initialForm.get('channelMin').hasError('max')">
+              Min channel value needs to be between {{currentSpecification.channels.min}} and
+              {{currentSpecification.channels.max}}
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="legacy">
+            <mat-label>Max channel</mat-label>
+            <input matInput type="number" placeholder="Max channel" formControlName="channelMax">
+            <mat-error *ngIf="initialForm.get('channelMax').hasError('min') || initialForm.get('channelMax').hasError('max')">
+              Max channel value needs to be between {{currentSpecification.channels.min}} and
+              {{currentSpecification.channels.max}}
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-select placeholder="Area type" formControlName="areaType">
+              <mat-option *ngFor="let area of areaTypes" [value]="area.value">
+                {{area.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
         </div>
       </div>
-      <div class="col-md-6">
+      <div class="offset-md-2 col-md-4">
+        <div class="form-group">
+
+          <mat-form-field appearance="legacy">
+            <mat-label>Transmitter power [dBm]</mat-label>
+            <input matInput type="number" placeholder="Transmitter power" formControlName="transmitterPower">
+            <mat-error *ngIf="initialForm.get('transmitterPower').hasError('min') || initialForm.get('transmitterPower').hasError('max')">
+              Transmitter power value needs to be between {{minTransPow}} and
+              {{maxTransPow}}
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="legacy">
+            <mat-label>Cable loss [dB]</mat-label>
+            <input matInput type="number" placeholder="Transmitter power" formControlName="cableLoss">
+            <mat-error *ngIf="initialForm.get('cableLoss').hasError('min') || initialForm.get('cableLoss').hasError('max')">
+              Cable loss value needs to be between {{minCableLoss}} and
+              {{maxCableLoss}}
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="legacy">
+            <mat-label>Antenna gain [dBi]</mat-label>
+            <input matInput type="number" placeholder="Antenna gain" formControlName="antennaGain">
+            <mat-error *ngIf="initialForm.get('antennaGain').hasError('min') || initialForm.get('antennaGain').hasError('max')">
+              Antenna gain value needs to be between {{minAntennaGain}} and
+              {{maxAntennaGain}}
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="legacy">
+              <mat-label>Transmitter height</mat-label>
+              <input matInput type="number" placeholder="Transmitter height" formControlName="transmitterHeight">
+              <mat-error *ngIf="initialForm.get('transmitterHeight').hasError('min') || initialForm.get('transmitterHeight').hasError('max')">
+                Transmitter height value needs to be between {{minAntennaHeight}} and
+                {{maxAntennaHeight}}
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-select placeholder="Receiver types" formControlName="receiverType">
+                  <mat-option *ngFor="let receiver of receiverTypes" [value]="receiver.value">
+                    {{receiver.name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="offset-md-7">
+        <button type="submit" class="btn btn-primary" [disabled]="initialForm.invalid">Submit</button>
       </div>
     </div>
   </form>

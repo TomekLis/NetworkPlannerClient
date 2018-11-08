@@ -5,6 +5,10 @@
 /tmp
 /out-tsc
 
+#sensitive data
+apiKeys.ts
+
+
 # dependencies
 /node_modules
 
