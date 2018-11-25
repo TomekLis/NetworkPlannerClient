@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-md-6">
+  <div class="offset-md-3 col-md-6">
 
     <div class="card mt-5" style="margin:auto;width: 600px;">
 
@@ -14,12 +14,12 @@
         <form #f="ngForm" novalidate (ngSubmit)="login(f)">
 
           <div class="form-group">
-            <label for="email">Email</label>
+            <label for="email">User name</label>
             <input id="email" type="text" required name="email" [ngModel]="credentials.email" #email="ngModel" tmFocus
               validateEmail class="form-control" placeholder="Email">
 
             <small [hidden]="email.valid || (email.pristine && !submitted)" class="text-danger">
-              Please enter a valid email
+              Please enter user name
             </small>
 
           </div>

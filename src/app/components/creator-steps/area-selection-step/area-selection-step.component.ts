@@ -59,7 +59,6 @@ export class AreaSelectionStepComponent implements OnInit {
     this.plannerService.currentInitialStepData.subscribe(
       data => (this.initialStepData = data)
     );
-    console.log(this.initialStepData);
 
     await this.mapsAPILoader.load();
     this.initAutocomplete();

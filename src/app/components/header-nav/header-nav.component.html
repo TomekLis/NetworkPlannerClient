@@ -1,9 +1,11 @@
-<nav class="navbar navbar-dark bg-dark mb-5">
+<nav class="navbar navbar-dark bg-dark">
   <a class="navbar-brand" href="/">Network planner</a>
   <div class="navbar-expand mr-auto">
     <div class="navbar-nav">
       <a class="nav-item nav-link active" href="/">Home</a>
       <a class="nav-item nav-link" routerLink="/initial-step">Generate plan</a>
+      <a class="nav-item nav-link" routerLink="/plan-list">View plans</a>
+      <a class="nav-item nav-link" routerLink="/login" (click)="logout()">Logout</a>
     </div>
   </div>
 </nav>

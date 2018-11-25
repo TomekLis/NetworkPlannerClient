@@ -4,6 +4,7 @@ import { Cell, CellType } from '../models/cell';
 import { Grid } from '../models/Grid';
 import { PolygonService } from './polygon.service';
 import { CellPosition } from '../models/cell-position';
+import { Vertex } from '../models/vertex';
 
 declare const google: any;
 
@@ -53,11 +54,9 @@ export class GridGeneratorService {
         gridType,
         centerPoint.position
       );
+      const verticesAsLatLng = newPolygonCell.vertices.map(x => x.latLng);
       if (
-        this.polygonService.containsLocation(
-          areaVertices,
-          newPolygonCell.vertices
-        )
+        this.polygonService.containsLocation(areaVertices, verticesAsLatLng)
       ) {
         grid.cells.push(newPolygonCell);
       }
@@ -72,7 +71,7 @@ export class GridGeneratorService {
     polygonCharacteristics: any,
     position: CellPosition
   ): Promise<Cell> {
-    const vertices = this.polygonService
+    const vertexLocations = this.polygonService
       .generatePolygon(
         polygonCharacteristics,
         centerPoint,
@@ -83,6 +82,19 @@ export class GridGeneratorService {
             : 0)
       )
       .map(cell => cell.geoLocation);
+
+    const vertices: Vertex[] = [];
+
+    let vertexPosition = 0;
+    vertexLocations.forEach(element => {
+      vertices.push({ latLng: element, position: vertexPosition });
+      if (vertexPosition === polygonCharacteristics.SidesNumber) {
+        vertexPosition = 0;
+      } else {
+        vertexPosition++;
+      }
+    });
+
     const polygonCell: Cell = new Cell(
       polygonCharacteristics.cellType,
       centerPoint,

@@ -41,7 +41,11 @@ export class UserService extends BaseService {
           map(res => {
             // res.json();
             const responseBody = JSON.parse((res as any)._body);
-            localStorage.setItem('auth_token', (responseBody as any).auth_token);
+            localStorage.clear();
+            localStorage.setItem(
+              'auth_token',
+              (responseBody as any).auth_token
+            );
             this.loggedIn = true;
             this._authNavStatusSource.next(true);
             return true;
@@ -50,15 +54,6 @@ export class UserService extends BaseService {
         )
     );
   }
-
-  // login(userName, password) {
-  //   const headers = new Headers();
-  //   headers.append('Content-Type', 'application/json');
-
-  //   return this.http
-  //     .post(this.baseUrl + '/auth/login', { userName, password })
-  //     .pipe(catchError(this.handleError));
-  // }
 
   logout() {
     localStorage.removeItem('auth_token');

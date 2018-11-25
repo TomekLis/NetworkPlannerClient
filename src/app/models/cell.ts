@@ -1,18 +1,26 @@
 import { LatLng } from '@agm/core';
-import { Point } from '@agm/core/services/google-maps-types';
 import { CellPosition } from './cell-position';
+import { Vertex } from './vertex';
 
 export class Cell {
   shape: CellType;
   center: LatLng;
-  vertices: LatLng[];
+  vertices: Vertex[];
   position: CellPosition;
+  id: number;
+  vertexPaths: LatLng[];
 
-  constructor(shape: CellType, cellCenter: LatLng, vertices: LatLng[], position: CellPosition) {
+  constructor(
+    shape: CellType,
+    cellCenter: LatLng,
+    vertices: Vertex[],
+    position: CellPosition
+  ) {
     this.shape = shape;
     this.center = cellCenter;
     this.vertices = vertices;
     this.position = position;
+    this.vertexPaths = [];
   }
 }
 

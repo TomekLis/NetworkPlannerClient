@@ -1,10 +1,10 @@
 import { Grid } from './Grid';
-import { LatLng } from '@agm/core';
 
 export class Plan {
   grid: Grid = {
     cells: []
   };
+  name: string;
   cirf: number;
   channelReuseDistance: number;
   cellRange: number;

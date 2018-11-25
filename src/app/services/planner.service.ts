@@ -1,14 +1,9 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ConfigService } from '../utils/config.service';
-import { Http } from '@angular/http';
+import { Http, Headers } from '@angular/http';
 import { BaseService } from './base.service';
-import { catchError, map } from 'rxjs/operators';
-import {
-  AreaTypes,
-  PolygonCharacteristics,
-  transmissionTypes
-} from '../utils/systems-specification';
+import { AreaTypes } from '../utils/systems-specification';
 import { GridGeneratorService } from './grid-generator.service';
 import { PolygonService } from './polygon.service';
 import { AgmPolygon, LatLng } from '@agm/core';
@@ -20,9 +15,11 @@ import { Router } from '@angular/router';
 })
 export class PlannerService extends BaseService {
   private initialStepData = new BehaviorSubject({});
+
   currentInitialStepData = this.initialStepData.asObservable();
 
   private initialPlan = new BehaviorSubject({
+    name: '',
     channelReuseDistance: 0,
     cirf: 0,
     requiredTransmissionQuality: 0,
@@ -77,7 +74,6 @@ export class PlannerService extends BaseService {
         cableLoss: data.cableLoss,
         transmitterPower: data.transmitterPower
       })) * 1000;
-    console.log(cellRadius);
 
     const polygonCoords = await this.polygonService.getPolygonPoints(
       agmPolygon
@@ -108,6 +104,7 @@ export class PlannerService extends BaseService {
     data
   ) {
     let plan: Plan = {
+      name: '',
       grid: grid,
       cirf: 0,
       cellRange: cellRadius,
@@ -156,5 +153,53 @@ export class PlannerService extends BaseService {
       .toPromise();
     cellRadius = Number((response as any)._body);
     return cellRadius;
+  }
+
+  async getPlans() {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    const authToken = localStorage.getItem('auth_token');
+    headers.append('Authorization', `Bearer ${authToken}`);
+
+    const response = await this.http
+      .get(this.baseUrl + '/planner/getPlans', { headers })
+      .toPromise();
+    const plans = JSON.parse((response as any)._body) as Plan[];
+    return plans;
+  }
+
+  async getPlanById(id: string) {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    const authToken = localStorage.getItem('auth_token');
+    headers.append('Authorization', `Bearer ${authToken}`);
+
+    const response = await this.http
+      .get(this.baseUrl + '/planner/getPlan/' + id, { headers })
+      .toPromise();
+    const plan = JSON.parse((response as any)._body) as Plan;
+    plan.grid.cells.forEach(element => {
+      element.vertexPaths = element.vertices.map(v => v.latLng);
+    });
+    return plan;
+  }
+
+  async savePlanInDb(title: String) {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    const authToken = localStorage.getItem('auth_token');
+    headers.append('Authorization', `Bearer ${authToken}`);
+
+    let planData;
+    this.currentPlan.subscribe(data => {
+      planData = data;
+    });
+
+    planData.name = title;
+    const response = await this.http
+      .post(this.baseUrl + '/planner/savePlan', planData, { headers })
+      .toPromise();
+    // console.log(response);
+    return response;
   }
 }

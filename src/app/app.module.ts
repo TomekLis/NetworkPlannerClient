@@ -37,6 +37,8 @@ import { GridGeneratorService } from './services/grid-generator.service';
 import { MapsService } from './services/maps.service';
 import { PolygonService } from './services/polygon.service';
 import { PlanComponent } from './components/plan/plan.component';
+import { PlanListComponent } from './components/plan-list/plan-list.component';
+import { PlanDetailsComponent } from './components/plan-details/plan-details.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +49,9 @@ import { PlanComponent } from './components/plan/plan.component';
     LoginFormComponent,
     SpinnerComponent,
     AreaSelectionStepComponent,
-    PlanComponent
+    PlanComponent,
+    PlanListComponent,
+    PlanDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -100,7 +104,18 @@ import { PlanComponent } from './components/plan/plan.component';
       },
       {
         path: 'created-plan',
-        component: PlanComponent
+        component: PlanComponent,
+        canActivate: [AuthGuardService]
+      },
+      {
+        path: 'plan-list',
+        component: PlanListComponent,
+        canActivate: [AuthGuardService]
+      },
+      {
+        path: 'plans/:id',
+        component: PlanDetailsComponent,
+        canActivate: [AuthGuardService]
       }
     ])
   ],

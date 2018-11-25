@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { PlannerService } from 'src/app/services/planner.service';
 import { Plan } from 'src/app/models/plan';
 import { Cell } from 'src/app/models/cell';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
+import { LatLng } from '@agm/core';
 
 @Component({
   selector: 'app-plan',
@@ -9,7 +12,9 @@ import { Cell } from 'src/app/models/cell';
   styleUrls: ['./plan.component.css']
 })
 export class PlanComponent implements OnInit {
+  savePlanForm: FormGroup;
   plan: Plan = {
+    name: '',
     channelReuseDistance: 0,
     cirf: 0,
     requiredTransmissionQuality: 0,
@@ -30,16 +35,27 @@ export class PlanComponent implements OnInit {
     requiredCi: 0,
     transmitterPower: 0
   };
+  verticesAsPath: LatLng[] = [];
 
   selectedCell: {
     latitude: number;
     longitude: number;
   };
-  constructor(private plannerService: PlannerService) {}
+  constructor(
+    private plannerService: PlannerService,
+    private formBuilder: FormBuilder,
+    private router: Router
+  ) {
+    this.savePlanForm = formBuilder.group({
+      planTitle: [null, [Validators.required]]
+    });
+  }
 
   ngOnInit() {
     this.plannerService.currentPlan.subscribe(data => (this.plan = data));
-    console.log(this.plan);
+    this.plan.grid.cells.forEach(element => {
+      element.vertexPaths = element.vertices.map(v => v.latLng);
+    });
   }
 
   click(cell: Cell) {
@@ -47,5 +63,12 @@ export class PlanComponent implements OnInit {
       longitude: (cell.center as any).lat,
       latitude: (cell.center as any).lng
     };
+  }
+
+  async savePlan() {
+    await this.plannerService.savePlanInDb(
+      this.savePlanForm.controls.planTitle.value
+    );
+    this.router.navigate(['/plan-list']);
   }
 }

@@ -61,6 +61,7 @@ const squareFillingCellNumber = level => 2 + (level * 2 - 2);
 
 export const PolygonCharacteristics = {
   Hexagonal: {
+    sidesNumber: 6,
     cellType: CellType.Hexagonal,
     offset: 30,
     step: 60,
@@ -70,6 +71,7 @@ export const PolygonCharacteristics = {
     fillingCellNumber: hexagonalFillingCellNumber
   },
   Square: {
+    sidesNumber: 4,
     cellType: CellType.Square,
     offset: 45,
     step: 90,

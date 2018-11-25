@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { store } from '@angular/core/src/render3/instructions';
 
 @Component({
   selector: 'header-nav',
@@ -6,10 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header-nav.component.css']
 })
 export class HeaderNavComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
+  ngOnInit() {}
 
-  ngOnInit() {
+  logout() {
+    localStorage.clear();
   }
-
 }

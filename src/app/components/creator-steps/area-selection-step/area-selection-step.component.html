@@ -14,17 +14,6 @@
         [polyDraggable]="true"
       >
       </agm-polygon>
-      <!--
-        <agm-marker *ngFor="let coord of markerCoords; index as i" [latitude]="coord.lat()" [longitude]="coord.lng()"
-          [label]="(i + 1).toString()+'\u200b'">
-          * </agm-marker>
-
-        <ng-container *ngIf="grid$ | async as grid">
-
-          <agm-polygon *ngFor="let cell of grid.cells" [paths]="[cell.vertices]" [fillOpacity]="0.1">
-          </agm-polygon>
-        </ng-container>
-      -->
     </agm-map>
   </div>
 

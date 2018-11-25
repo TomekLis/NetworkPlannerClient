@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AgmPolygon, LatLng } from '@agm/core';
 import * as jsts from 'jsts';
 import { CellPosition } from '../models/cell-position';
+import { Vertex } from '../models/vertex';
 
 declare const google: any;
 @Injectable({
@@ -13,9 +14,12 @@ export class PolygonService {
   constructor() {}
 
   async getPolygonPoints(agmPolygon: AgmPolygon) {
+    const polygon = await (agmPolygon as any)._polygonManager._polygons.get(
+      agmPolygon
+    );
     const points: LatLng[] = [];
-    (agmPolygon.paths as any).forEach(coordinate => {
-      points.push(new google.maps.LatLng(coordinate.lat, coordinate.lng));
+    polygon.getPath().forEach(coordinate => {
+      points.push(new google.maps.LatLng(coordinate.lat(), coordinate.lng()));
     });
     return points;
   }

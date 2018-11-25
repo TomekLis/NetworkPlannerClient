@@ -1,7 +1,7 @@
 <header-nav></header-nav>
 
 <div id="holder" class="row">
-  <div class="col-8">
+  <div class="col-6">
     <agm-map [latitude]="plan.latitude" [longitude]="plan.longitude">
       <!--
         <agm-polygon [paths]="polygonCoords" [editable]="false" [clickable]="true" [geodesic]="true" [fillColor]="'#d18300'"
@@ -16,7 +16,7 @@
 
       <agm-polygon
         *ngFor="let cell of plan.grid.cells"
-        [paths]="[cell.vertices]"
+        [paths]="[cell.vertexPaths]"
         [fillOpacity]="0.1"
         (polyClick)="click(cell)"
       >
@@ -24,14 +24,18 @@
     </agm-map>
   </div>
 
-  <div class="col-3 pl-0">
-    <h2>Network data</h2>
+  <div class="col-4 pl-0">
     <div class="my-3 p-3 bg-white rounded shadow-sm">
       <h6 class="border-bottom border-gray pb-2 mb-0">Network data</h6>
 
       <div class="media text-muted pt-3 header">
         <div class="playerOne">Cells number</div>
         <div class="playerTwo">{{ plan.grid.cells.length }}</div>
+      </div>
+
+      <div class="media text-muted pt-3 header">
+        <div class="playerOne">Base station EIRP</div>
+        <div class="playerTwo">{{ plan.eirp }}</div>
       </div>
 
       <div class="media text-muted pt-3 header">
@@ -59,12 +63,12 @@
         <div class="playerTwo">{{ plan.channelReuseDistnace }}</div>
       </div>
     </div>
-
-    <ng-container *ngIf="selectedCell">
-      <h2>Cell data</h2>
+  </div>
+  <ng-container *ngIf="selectedCell">
+    <div class="col-2 pl-0">
       <div class="my-3 p-3 bg-white rounded shadow-sm">
         <h6 class="border-bottom border-gray pb-2 mb-0">
-          Base station geo location
+          Base station location
         </h6>
 
         <div class="media text-muted pt-3 header">
@@ -77,6 +81,28 @@
           <div class="playerTwo">{{ selectedCell.latitude }}</div>
         </div>
       </div>
-    </ng-container>
+    </div>
+  </ng-container>
+</div>
+
+<div class="row">
+  <div class="offset-md-6 col-4">
+    <div class="my-3 p-3 bg-white rounded shadow-sm" [formGroup]="savePlanForm">
+      <mat-form-field appearance="legacy">
+        <mat-label>Plan title</mat-label>
+        <input
+          matInput
+          type="text"
+          placeholder="Plan title"
+          formControlName="planTitle"
+        />
+        <mat-error *ngIf="savePlanForm.get('planTitle').hasError('required')">
+          Enter the plan title
+        </mat-error>
+      </mat-form-field>
+      <button mat-button (click)="savePlan()" [disabled]="savePlanForm.invalid">
+        Save plan
+      </button>
+    </div>
   </div>
 </div>
