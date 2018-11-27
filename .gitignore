@@ -4,10 +4,11 @@
 /dist
 /tmp
 /out-tsc
+/public 
 
 #sensitive data
 apiKeys.ts
-
+firebase.json
 
 # dependencies
 /node_modules

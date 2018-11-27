@@ -9,7 +9,6 @@ import {
 } from 'src/app/utils/systems-specification';
 import { PlannerService } from 'src/app/services/planner.service';
 import { Router } from '@angular/router';
-import { CellType } from 'src/app/models/cell';
 
 @Component({
   selector: 'initial-step',
@@ -40,8 +39,9 @@ export class InitialStepComponent implements OnInit {
 
   areaTypes = [
     { name: 'Large city', value: AreaTypes.LargeCity },
-    { name: 'Small city', value: AreaTypes.SmallCity },
-    { name: 'Open space/lural area', value: AreaTypes.RularArea }
+    { name: 'Small/Medium city', value: AreaTypes.SmallCity },
+    { name: 'Suburb', value: AreaTypes.Suburb},
+    { name: 'Open space/rural area', value: AreaTypes.RularArea }
   ];
 
   receiverTypes = [

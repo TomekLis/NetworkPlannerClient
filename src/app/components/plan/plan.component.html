@@ -73,12 +73,12 @@
 
         <div class="media text-muted pt-3 header">
           <div class="playerOne">Longitude</div>
-          <div class="playerTwo">{{ selectedCell.longitude }}</div>
+          <div class="playerTwo">{{ selectedCell.longitude | lngCoordinate}}</div>
         </div>
 
         <div class="media text-muted pt-3 header">
           <div class="playerOne">Latitude</div>
-          <div class="playerTwo">{{ selectedCell.latitude }}</div>
+          <div class="playerTwo">{{ selectedCell.latitude | latCoordinate }}</div>
         </div>
       </div>
     </div>

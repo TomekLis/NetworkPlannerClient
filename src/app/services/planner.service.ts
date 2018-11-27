@@ -75,6 +75,7 @@ export class PlannerService extends BaseService {
         transmitterPower: data.transmitterPower
       })) * 1000;
 
+    console.log(cellRadius);
     const polygonCoords = await this.polygonService.getPolygonPoints(
       agmPolygon
     );

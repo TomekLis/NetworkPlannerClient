@@ -50,6 +50,7 @@ const transmissionTypes = {
 enum AreaTypes {
   LargeCity,
   SmallCity,
+  Suburb,
   RularArea
 }
 

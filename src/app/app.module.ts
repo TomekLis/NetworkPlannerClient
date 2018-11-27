@@ -39,6 +39,8 @@ import { PolygonService } from './services/polygon.service';
 import { PlanComponent } from './components/plan/plan.component';
 import { PlanListComponent } from './components/plan-list/plan-list.component';
 import { PlanDetailsComponent } from './components/plan-details/plan-details.component';
+import { LngCoordinatePipe } from './utils/lng-coordinate.pipe';
+import { LatCoordinatePipe } from './utils/lat-coordinate.pipe';
 
 @NgModule({
   declarations: [
@@ -51,7 +53,9 @@ import { PlanDetailsComponent } from './components/plan-details/plan-details.com
     AreaSelectionStepComponent,
     PlanComponent,
     PlanListComponent,
-    PlanDetailsComponent
+    PlanDetailsComponent,
+    LngCoordinatePipe,
+    LatCoordinatePipe
   ],
   imports: [
     BrowserModule,
